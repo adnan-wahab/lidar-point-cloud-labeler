@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="">
+        <meta name="author" content="">
+	      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <title>Potree Viewer</title>
+
+	      <link rel="stylesheet" type="text/css" href="/local_modules/potree/build/potree/potree.css">
+	      <link rel="stylesheet" type="text/css" href="/local_modules/potree/libs/jquery-ui/jquery-ui.min.css">
+	      <link rel="stylesheet" type="text/css" href="/local_modules/potree/libs/perfect-scrollbar/css/perfect-scrollbar.css">
+	      <link rel="stylesheet" href="/local_modules/potree/libs/openlayers3/ol.css" type="text/css">
+        <link rel="stylesheet" href="/assets/style.css" type="text/css">
+    </head>
+
+    <body>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="/local_modules/potree/libs/three.js/build/three.js"></script>
+	      <script src="/local_modules/potree/libs/proj4/proj4.js"></script>
+        <script src="/local_modules/potree/libs/other/stats.min.js"></script>
+        <script src="/local_modules/potree/libs/other/BinaryHeap.js"></script>
+        <script src="/local_modules/potree/libs/tween/tween.min.js"></script>
+        <script src="/local_modules/potree/build/potree/potree.js"></script>
+	      <script src="/local_modules/potree/libs/plasio/js/laslaz.js"></script>
+	      <script src="/local_modules/potree/libs/plasio/vendor/bluebird.js"></script>
+        <script src="https://threejs.org/examples/js/controls/DragControls.js"></script>
+        <script src="https://threejs.org/examples/js/controls/TrackballControls.js"></script>
+		    <div class="overlay">
+            <button class="drive">Drive</button>
+            <!-- <button class="save-state">save state</button> -->
+            <button class="get-state">get Labels</button>
+            <!-- <button class="get-turk">get labels from turk</button> -->
+        </div>
+
+        <div class="potree_container" style="position: absolute; width: 100%; height: 100%; left: 0px; top: 0px; ">
+		        <div id="potree_render_area"></div>
+
+			      <div id="potree_description" class="potree_info_text"></div>
+		    </div>
+
+	      <script src="/assets/point-cloud.js"></script>
+    </body>
+</html>

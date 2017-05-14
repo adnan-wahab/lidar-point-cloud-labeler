@@ -1,0 +1,29 @@
+web-based 3D tool that ingests LiDAR point cloud files, and allows users to draw
+cuboids around objects within those point clouds. 
+Agents will be able to navigate around clouds (rotate, pan, zoom) 
+and assign labels to the cuboids they make.
+
+need:
+- [x] draw point cloud
+- draw cuboid 
+- read json
+- export json
+- read lidar file
+
+
+Further reading 
+- [[http://dl.acm.org/citation.cfm?id=2647418][Cheaper by the dozen: group annotation of 3D data]]
+- [[google.com][A Connected Component Labeling Algorithm for Sparse Lidar Data Segmentation]]
+- [[https://arxiv.org/abs/1702.04405][ScanNet: Richly-annotated 3D Reconstructions of Indoor Scenes]]
+  Uses voxels not point clouds
+- [[https://link.springer.com/chapter/10.1007/978-3-642-29793-9_17][Open Building Models: Towards a Platform for Crowdsourcing Virtual 3D Cities]]
+
+
+- [[http://www.cs.toronto.edu/~urtasun/publications/chen_et_al_cvpr14b.pdf][Beat the MTurkers: Automatic Image Labeling from Weak 3D Supervision]]
+
+http://potree.org/showcase/land_building.html
+
+
+to save json, please send to 
+
+'https://nnyvbpiwrh.localtunnel.me/data/labels.json'
