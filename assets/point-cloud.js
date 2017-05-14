@@ -39,8 +39,8 @@ Potree.loadPointCloud(url, "Building", function(e){
 
 
 
-function renderLabels(scene, annotations) {
-  console.log('ano', annotations)
+function renderLabels(scene, d) {
+  annotations = d
 	var geometry = new THREE.BoxGeometry( 40, 40, 40 );
 
   var wireMat = new THREE.MeshLambertMaterial({color: 0x00ffff, wireframe: true });
@@ -72,12 +72,12 @@ function renderLabels(scene, annotations) {
 
     scene.scenePointCloud.add( object );
 
-		objects.push( object );
+		objects.push( inside );
 
     pos[2] += 2
 
     let save = setPos(pos)
-    console.log(label)
+  
     let ano = scene.addAnnotation(pos, { "title": label,
                                   actions: [{
                                     // "icon": Potree.resourcePath + "/icons/goto.svg",
@@ -100,11 +100,11 @@ function renderLabels(scene, annotations) {
 
   let camera = scene.camera;
   let renderer = viewer.renderer;
-  
+
   
   var dragControls = new THREE.DragControls( objects, camera, renderer.domElement );
 	dragControls.addEventListener( 'dragstart', function (mesh) {
-    //console.log(mesh.position)
+    console.log('woo')
     viewer.controls.rotationSpeed = .1
   });
   dragControls.addEventListener( 'dragend', () => {
@@ -206,3 +206,37 @@ let setState = (annotations) => {
 $(".drive").on('click', drive)
 $(".get-state").on('click', getState)
 $(".save-state").on('click', setState)
+
+$(".make-cube").on('click', () => {
+  var geometry = new THREE.BoxGeometry( 40, 40, 40 );
+  var wireMat = new THREE.MeshLambertMaterial({color: 0x00ffff, wireframe: true });
+  var insideMat = new THREE.MeshLambertMaterial({color: 0x00ff00, transparent: true, opacity: 0.2});
+  
+
+  
+  let object = new THREE.Object3D()
+  annotations.labels.push('___')
+  let pos = annotations.positions[annotations.positions.length] =
+      [13.701642379649593, 14.930553514687404, 0]//center;
+
+		var wires = new THREE.Mesh( geometry,  wireMat);
+    var inside = new THREE.Mesh( geometry,  insideMat);
+
+    object.add(wires)
+    object.add(inside)
+
+		object.position.x = pos[0]
+  	object.position.y = pos[1]
+		object.position.z = pos[2]
+
+
+    let scale = .04
+		object.scale.x = scale
+		object.scale.y = scale
+		object.scale.z = scale * 2
+
+    scene.scenePointCloud.add( object );
+	//objects.push( object );
+
+  setState(annotations);
+})

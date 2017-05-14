@@ -5,10 +5,10 @@ and assign labels to the cuboids they make.
 
 need:
 - [x] draw point cloud
-- draw cuboid 
-- read json
-- export json
-- read lidar file
+- [x] draw cuboid 
+- [x] read json
+- [x] export json
+- [ ] read lidar file
 
 
 Further reading 
@@ -27,3 +27,4 @@ http://potree.org/showcase/land_building.html
 to run, 
 python3 server.py
 navigate to localhost:4111 and localhost:4111/labeler 
+
