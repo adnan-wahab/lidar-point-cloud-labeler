@@ -1,18 +1,42 @@
 
 <body>
     <label> What is this image???
-        <input type="text" >
+        <input type="text" ><br>
+        <span class="cookie"></span>
+        <button>yes</button>
+        <button>no </button>
     </label>
-    <img src="/assets/SS-3.png">
-    <img src="">
-    
+    <img src="/assets/SS-3.png" style="display:block;">
+
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script>
+
+     let data
+
+     $.get("/data/label.json",
+           function(res){ data = JSON.parse(res)
+               document.querySelector('.cookie').innerHTML
+               = `Is it really a <b>${data.labels[2]}</b>??`
+
+           })
+
+
      $('input').on('keydown', function (e) {
          let val = this.value
-         $.post("/data/labels.json", {label: val},
-                function(data){ console.log('great success ' + val) })
+         data.labels[2] = val
+
+         $.ajax({
+             url:"/data/label.json",
+             type:"POST",
+             data:JSON.stringify(data),
+             contentType:"application/json; charset=utf-8",
+             dataType:"json",
+             success: function(){
+                 console.log('yay')
+             }
+         })
      });
 
     </script>
+
 </body>

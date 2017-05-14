@@ -1,15 +1,8 @@
 console.warn = function () {}
+let annotations = {}
 
 
-let annotations = [
-  'street-sign', 'street-lamp', 'tree'
-];
 
-let pos = [
-  [21.483457491982627, 4.101009183218036, -0.28927816535000295],
-  [13.268163897669472, -0.8337999173040958, 0.6544058482279913],
-  [8.482372247042484, -11.817050614834729, 0.8285123355981248],
-];
 
 
 window.viewer = new Potree.Viewer(document.getElementById("potree_render_area"));
@@ -46,7 +39,8 @@ Potree.loadPointCloud(url, "Building", function(e){
 
 
 
-function hello(scene) {
+function renderLabels(scene, annotations) {
+  console.log('ano', annotations)
 	var geometry = new THREE.BoxGeometry( 40, 40, 40 );
 
   var wireMat = new THREE.MeshLambertMaterial({color: 0x00ffff, wireframe: true });
@@ -54,9 +48,11 @@ function hello(scene) {
   var insideMat = new THREE.MeshLambertMaterial({color: 0x00ff00, transparent: true, opacity: 0.2});
   
   let objects = [];
+  
 
-	for ( var i = 0; i < 3; i ++ ) {
+	annotations.labels.forEach((label, index) => {
     let object = new THREE.Object3D()
+    let pos = annotations.positions[index]
 
 		var wires = new THREE.Mesh( geometry,  wireMat);
     var inside = new THREE.Mesh( geometry,  insideMat);
@@ -64,13 +60,10 @@ function hello(scene) {
     object.add(wires)
     object.add(inside)
 
-		object.position.x = pos[i][0];
-  	object.position.y = pos[i][1];
-		object.position.z = pos[i][2];
+		object.position.x = pos[0];
+  	object.position.y = pos[1];
+		object.position.z = pos[2];
 
-		// object.rotation.x = Math.random() * 2 * Math.PI;
-		// object.rotation.y = Math.random() * 2 * Math.PI;
-		// object.rotation.z = Math.random() * 2 * Math.PI;
 
     let scale = .04
 		object.scale.x = scale
@@ -81,22 +74,29 @@ function hello(scene) {
 
 		objects.push( object );
 
-    pos[i][2] += 2
+    pos[2] += 2
 
-    let save = setPos(pos[i])
-
-    scene.addAnnotation(pos[i], { "title": annotations[i] ,
+    let save = setPos(pos)
+    console.log(label)
+    let ano = scene.addAnnotation(pos, { "title": label,
                                   actions: [{
-                                    "icon": Potree.resourcePath + "/icons/goto.svg",
-	                                  "onclick": function () {
-                                      console.log('click')
+                                    // "icon": Potree.resourcePath + "/icons/goto.svg",
+	                                  "onclick": function (e) {
+                                      let label = prompt('what is this??')
 
-                                      return save();
+                                      annotations.labels[index] = label
+
+                                      ano.domElement
+                                        .firstElementChild
+                                        .firstElementChild
+                                        .textContent = label
+
+                                      setState(annotations)
                                     }
                                   }]
                                 });
-
-	}
+    window.ano = ano
+	})
 
   let camera = scene.camera;
   let renderer = viewer.renderer;
@@ -163,9 +163,6 @@ window.addEventListener('keydown', (e)=> {
 
 
 let drive = () => {
-  
-
-  
   let dest = new THREE.Vector3().fromArray([13.701642379649593, 14.930553514687404, 0])
   setInterval(function () {
     scene.view.position.lerp(dest, .01)
@@ -178,44 +175,34 @@ let drive = () => {
       document.body.innerHTML = `<img src="${url}" class="boom">`
     }, 5000)
   else {
-    dest =
-      new THREE.Vector3()
-      .fromArray([3.85673, -34.4015, 0.04654])
+    dest = new THREE.Vector3().fromArray([3.85673, -34.4015, 0.04654])
   }
 }
 let hasLabels = false
 
 let getState = () => {
   hasLabels = true
-  $.get('/data/labels.json', (json) => {
+  $.get('/data/label.json', (json) => {
+    console.log('hi' + 44)
     json = JSON.parse(json)
-    console.log(json)
-    if (json && json.label)
-      annotations[2] = json.label
-    //console.log(json.label, typeof json)
-    hello(scene)
+
+    renderLabels(scene, json)
   })
-  
 }
 
-let setState = () => {
-  $.post("/data/labels.json", {hello: 'ye'},
-         function(data){ console.log('great success') })
-}
-
-
-let getTurk = () => {
-  hasLabels = true
-  $.get('https://s3.amazonaws.com/tcd-lidar/SS-2.jpg-json.json', (json) => {
-    json = JSON.parse(json)
-    console.log(json)
-    if (json && json.image_path)
-      annotations[2] = json.image_path
+let setState = (annotations) => {
+  $.ajax({
+    url:"/data/label.json",
+    type:"POST",
+    data:JSON.stringify(annotations),
+    contentType:"application/json; charset=utf-8",
+    dataType:"json",
+    success: function(){
+      console.log('yay')
+    }
   })
-  hello(scene)
 }
 
 $(".drive").on('click', drive)
 $(".get-state").on('click', getState)
-$(".get-turk").on('click', getTurk)
 $(".save-state").on('click', setState)

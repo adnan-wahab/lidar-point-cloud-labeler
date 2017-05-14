@@ -24,6 +24,6 @@ Further reading
 http://potree.org/showcase/land_building.html
 
 
-to save json, please send to 
-
-'https://nnyvbpiwrh.localtunnel.me/data/labels.json'
+to run, 
+python3 server.py
+navigate to localhost:4111 and localhost:4111/labeler 

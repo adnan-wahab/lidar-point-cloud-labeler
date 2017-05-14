@@ -1,7 +1,7 @@
-from flask import Flask, request, send_from_directory, render_template
-import json
+from flask import Flask, request, send_from_directory, render_template, json
 
-json_file = './data/labels.json'
+
+json_file = './data/label.json'
 
 app = Flask(__name__, static_url_path='')
 app.config['TEMPLATES_AUTO_RELOAD']= True
@@ -23,18 +23,18 @@ def send_potree(path):
 def send_assets(path):
     return send_from_directory('assets', path)
 
-@app.route('/data/labels.json', methods = ['GET', 'POST'])
+@app.route('/data/label.json', methods = ['GET', 'POST'])
 def handle_data():
     if request.method == 'GET':
          with open(json_file, 'r') as f:
              data = f.read()
              return data
     if request.method == 'POST':
-        data = request.form
-        print(data)
         with open(json_file, 'w') as f:
-            json.dump(data, f)
-            return data
+            d = request.get_json(force=True)
+            print(d)
+            json.dump(d, f)
+            return 'yay it worked'
 
 if __name__ == "__main__":
-     app.run(port = 4111)
+     app.run(port = 4000)
