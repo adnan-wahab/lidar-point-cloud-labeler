@@ -183,8 +183,8 @@ let hasLabels = false
 let getState = () => {
   hasLabels = true
   $.get('/data/label.json', (json) => {
-    console.log('hi' + 44)
-    json = JSON.parse(json)
+    if ('str' === typeof json) 
+      json = JSON.parse(json)
 
     renderLabels(scene, json)
   })

@@ -17,7 +17,8 @@ Further reading
 - [[https://arxiv.org/abs/1702.04405][ScanNet: Richly-annotated 3D Reconstructions of Indoor Scenes]]
   Uses voxels not point clouds
 - [[https://link.springer.com/chapter/10.1007/978-3-642-29793-9_17][Open Building Models: Towards a Platform for Crowdsourcing Virtual 3D Cities]]
-
+- [[http://www.velodynelidar.com/lidar/hdlpressroom/pdf/papers/journal_papers/LIDAR-based%203D%20Object%20Perception.pdf][LIDAR-based 3D Object Perception]]
+- [[http://sci-hub.bz/10.1109/icra.2012.6225316][Detection-based Object Labeling in 3D Scenes]]
 
 - [[http://www.cs.toronto.edu/~urtasun/publications/chen_et_al_cvpr14b.pdf][Beat the MTurkers: Automatic Image Labeling from Weak 3D Supervision]]
 
@@ -28,3 +29,6 @@ to run,
 python3 server.py
 navigate to localhost:4111 and localhost:4111/labeler 
 
+
+1. 3d
+2. creates jobs 
